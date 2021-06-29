@@ -26,6 +26,7 @@ export default function CreateOrder({dispatch}) {
 			<Paper>
 				<InputField
 					id={"customerName"}
+					data-testid={"customerName"}
 					value={customerName}
 					label={"Customer name"}
 					helperText={"Will appear on your Orders table below"}
