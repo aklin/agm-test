@@ -24,8 +24,8 @@ export default function Orders() {
 	const {state} = useStore();
 	const {sequence} = state;
 
-	const dat = useMemo(() => Object.keys(state)
-			.filter((key) => key !== "sequence")
+	const data = useMemo(() => Object.keys(state)
+			.filter((key) =>  !isNaN(Number(key)))
 			.map(key => state[key])
 			.reduce((prev, curr) => prev.push(curr) && prev ,[])
 		, [sequence])
@@ -34,7 +34,7 @@ export default function Orders() {
 	return (
 		<div>
 			<Typography variant={"h4"}>Tasks for today {now.getDate()}/{now.getMonth() + 1}/{now.getFullYear()}</Typography>
-			<OrdersTable orders={dat}/>
+			<OrdersTable orders={data}/>
 		</div>
 	)
 }
