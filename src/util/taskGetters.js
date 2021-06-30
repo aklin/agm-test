@@ -15,12 +15,16 @@ export const getUnfinishedTask = (state) => {
 
 export const getCurrentTask = (state) => {
 	const now = new Date();
-
 	return getSeq(state)
 		.map((key) => state[key])
-		.find(({ startAt, endAt = new Date(), task }) =>
-			startAt && startAt.getTime() < now.getTime() && endAt
-				? now.getTime() < endAt.getTime()
-				: true
-		);
+		.find(({ startAt, endAt = new Date(), task }) => {
+			console.group(task);
+			console.log(startAt);
+			console.log(now);
+			console.log(endAt);
+			console.groupEnd();
+			return startAt && startAt.valueOf() <= now.valueOf() && endAt
+				? now.valueOf() <= endAt.valueOf()
+				: true;
+		});
 };

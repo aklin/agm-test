@@ -93,8 +93,8 @@ it('Look for an active task on an empty state', () => {
 });
 
 it('Find an ongoing task based on its start and end time', () => {
-	const past = new Date(Date.now() - 10000);
-	const pastLater = new Date(Date.now() - 9000);
+	const past = new Date(100000);
+	const pastLater = new Date(past.valueOf() + 5 * 60 * 1000);
 	const now = new Date();
 
 	const state = {
@@ -107,7 +107,7 @@ it('Find an ongoing task based on its start and end time', () => {
 		},
 		2: {
 			startAt: now,
-			endAt: new Date(Date.now + 6000),
+			endAt: new Date(Date.now() + 6000),
 			task: Tasks.SERVE_ORDER,
 		},
 	};
@@ -119,8 +119,8 @@ it('Find an ongoing task based on its start and end time', () => {
 });
 
 it('Find ongoing and open task', () => {
-	const past = new Date(Date.now() - 10000);
-	const pastLater = new Date(Date.now() - 9000);
+	const past = new Date(100000);
+	const pastLater = new Date(past.valueOf() + 5 * 60 * 1000);
 	const now = new Date();
 
 	const state = {
