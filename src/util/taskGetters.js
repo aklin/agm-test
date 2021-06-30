@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const getSeq = (state) =>
 	Object.keys(state)
 		.map((key) => Number(key))
@@ -13,18 +15,30 @@ export const getUnfinishedTask = (state) => {
 	return !task || task.endAt ? undefined : task;
 };
 
-export const getCurrentTask = (state) => {
-	const now = new Date();
-	return getSeq(state)
-		.map((key) => state[key])
-		.find(({ startAt, endAt = new Date(), task }) => {
+export const getCurrentTask = (state, currentTime = new Date()) => {
+	const now = moment(currentTime);
+	const currentSeq = getSeq(state)
+		.map((key) => ({
+			startAt: moment(state[key].startAt),
+			endAt: moment(state[key].endAt),
+			task: state[key].task,
+			sequence: state[key].sequence,
+		}))
+		.find(({ startAt, endAt, task, sequence }) => {
 			console.group(task);
-			console.log(startAt);
-			console.log(now);
-			console.log(endAt);
+			console.log(`seq: ${sequence}`);
+			console.log(`now: ${now}`);
+			console.log(`startAt: ${startAt}`);
+			console.log(`endAt: ${endAt}`);
+			console.log(`isBefore: ${startAt.isBefore(now)}`);
+			console.log(`isAfter: ${endAt.isAfter(now)}`);
 			console.groupEnd();
-			return startAt && startAt.valueOf() <= now.valueOf() && endAt
-				? now.valueOf() <= endAt.valueOf()
-				: true;
+
+			return startAt.isBefore(now) && endAt.isAfter(now) && sequence;
 		});
+
+	const result = currentSeq ? state[currentSeq.sequence] : undefined;
+	console.log(`result: ${result}`);
+	console.log(result);
+	return result;
 };

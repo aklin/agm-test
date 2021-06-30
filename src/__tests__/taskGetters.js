@@ -7,10 +7,10 @@ import { Tasks } from '../util/tasks';
 
 it('Find task with highest sequence', () => {
 	const state = {
-		2: { startAt: new Date(), endAt: new Date() },
+		2: { sequence: 2, startAt: new Date(), endAt: new Date() },
 		key1: 'foo',
 		key2: 'bar',
-		1: { startAt: new Date() },
+		1: { sequence: 1, startAt: new Date() },
 	};
 
 	expect(getLastTaskSeq(state)).toEqual(2);
@@ -20,12 +20,13 @@ it('Find active task, which is a break', () => {
 	const breakStart = new Date();
 
 	const state = {
-		2: { startAt: new Date(), endAt: new Date() },
+		2: { sequence: 2, startAt: new Date(), endAt: new Date() },
 		key1: 'foo',
 		key2: 'bar',
-		1: { startAt: new Date() },
+		1: { sequence: 1, startAt: new Date() },
 		onBreak: 3,
 		3: {
+			sequence: 3,
 			startAt: breakStart,
 			task: Tasks.BREAK,
 		},
@@ -93,45 +94,52 @@ it('Look for an active task on an empty state', () => {
 });
 
 it('Find an ongoing task based on its start and end time', () => {
-	const past = new Date(100000);
-	const pastLater = new Date(past.valueOf() + 5 * 60 * 1000);
-	const now = new Date();
+	const past = new Date('2021-01-01');
+	const pastLater = new Date('2021-01-02');
+
+	const future = new Date('2021-01-05');
+	const futureLater = new Date('2021-01-07');
+	const now = new Date('2021-01-06');
 
 	const state = {
 		key1: 'foo',
 		key2: 'bar',
 		1: {
+			sequence: 1,
 			startAt: past,
 			endAt: pastLater,
 			task: Tasks.BREAK,
 		},
 		2: {
-			startAt: now,
-			endAt: new Date(Date.now() + 6000),
+			sequence: 2,
+			startAt: future,
+			endAt: futureLater,
 			task: Tasks.SERVE_ORDER,
 		},
 	};
 
-	const res = getCurrentTask(state);
+	const res = getCurrentTask(state, now);
 	expect(res).toBeDefined();
 
 	expect(res.task).toEqual(Tasks.SERVE_ORDER);
 });
 
 it('Find ongoing and open task', () => {
-	const past = new Date(100000);
-	const pastLater = new Date(past.valueOf() + 5 * 60 * 1000);
-	const now = new Date();
+	const past = new Date('2021-01-01');
+	const pastLater = new Date('2021-01-02');
+	const now = new Date('2021-01-06');
 
 	const state = {
 		key1: 'foo',
 		key2: 'bar',
 		1: {
+			sequence: 1,
 			startAt: past,
 			endAt: pastLater,
 			task: Tasks.BREAK,
 		},
 		2: {
+			sequence: 2,
 			startAt: now,
 			//no endAt
 			task: Tasks.SERVE_ORDER,
