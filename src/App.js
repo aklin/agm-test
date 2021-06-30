@@ -9,6 +9,7 @@ import {
 import Orders from './components/Orders';
 import CreateOrder from './components/CreateOrder';
 import { StoreContext, useInitStore } from './hooks';
+import CurrentTask from './components/CurrentTask';
 
 const useStyles = makeStyles({
 	topMargin: {
@@ -31,6 +32,7 @@ function App() {
 				</AppBar>
 				<Container maxWidth="lg" className={classes.topMargin}>
 					<CreateOrder state={state} dispatch={dispatch} />
+					<CurrentTask state={state} />
 					<Orders />
 				</Container>
 			</Container>
