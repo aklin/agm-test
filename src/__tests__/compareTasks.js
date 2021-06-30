@@ -84,3 +84,7 @@ it('equal, same ref', () => {
 it('equal, both undefined', () => {
 	expect(compareTasks(undefined, undefined)).toBe(true);
 });
+
+it('equal, both falsey', () => {
+	expect(compareTasks(false, undefined)).toBe(true);
+});

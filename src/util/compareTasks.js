@@ -3,8 +3,13 @@ export default function compareTasks(a, b) {
 		return true;
 	}
 
-	if ((!a || !b) && a !== b) {
+	if (!a && !b) {
 		//both falsey
+		return true;
+	}
+
+	if ((!a || !b) && a !== b) {
+		//one of them falsey
 		return false;
 	}
 
