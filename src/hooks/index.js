@@ -22,7 +22,7 @@ export const Actions = {
 };
 
 function reducer(state, action) {
-	const debug = true;
+	const debug = false;
 	const { type, data } = action;
 	const { sequence: oldSequence, onBreak: currentBreakSeq } = state;
 	const newSequence = oldSequence + 1;
