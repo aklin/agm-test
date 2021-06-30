@@ -14,10 +14,6 @@ export default function CurrentTask({ state }) {
 
 	const { task, customerName } = currentTask || {};
 
-	console.group('CurrentTask');
-	console.log(currentTask);
-	console.groupEnd();
-
 	return (
 		<Paper className={classes.topMargin}>
 			<Typography variant={'h4'}>Current task</Typography>

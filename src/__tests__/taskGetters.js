@@ -151,3 +151,21 @@ it('Find ongoing and open task', () => {
 
 	expect(res.task).toEqual(Tasks.SERVE_ORDER);
 });
+
+it('starts now', () => {
+	const now = new Date();
+	const startAt = new Date(now.valueOf());
+	const endAt = new Date(now.valueOf() + 1);
+	const state = {
+		1: {
+			sequence: 1,
+			startAt: startAt,
+			endAt: endAt,
+			task: Tasks.BREAK,
+		},
+	};
+
+	const res = getCurrentTask(state, now);
+	expect(res).toBeDefined();
+	expect(res.task).toEqual(Tasks.BREAK);
+});
