@@ -11,6 +11,7 @@ export default function compareTasks(a, b) {
 	const endAtB = b.endAt && b.endAt.valueOf();
 
 	return (
+		a.sequence===b.sequence &&
 		a.task === b.task &&
 		a.startAt.valueOf() === b.startAt.valueOf() &&
 		endAtA === endAtB &&
