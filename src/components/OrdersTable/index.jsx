@@ -54,36 +54,28 @@ export default function OrdersTable({ orders }) {
 				<TableBody>
 					{orders
 						.sort((a, b) => b.sequence - a.sequence)
-						.map(
-							({
-								sequence,
-								startAt,
-								endAt = Date.now(),
-								customerName,
-								task,
-							}) => (
-								<TableRow key={sequence}>
-									<TableCell component="th" scope="row">
-										{sequence}
-									</TableCell>
-									<TableCell align={headers[1].align || 'left'}>
-										{formatTime(startAt)}
-									</TableCell>
-									<TableCell align={headers[2].align || 'left'}>
-										{formatTime(endAt)}
-									</TableCell>
-									<TableCell align={headers[3].align || 'left'}>
-										{TaskDescription[task]}
-									</TableCell>
-									<TableCell align={headers[4].align || 'left'}>
-										{customerName}
-									</TableCell>
-									<TableCell align={headers[5].align || 'left'}>
-										{calcDuration(startAt, endAt)}
-									</TableCell>
-								</TableRow>
-							)
-						)}
+						.map(({ sequence, startAt, endAt, customerName, task }) => (
+							<TableRow key={`${sequence}${endAt}`}>
+								<TableCell component="th" scope="row">
+									{sequence}
+								</TableCell>
+								<TableCell align={headers[1].align || 'left'}>
+									{formatTime(startAt)}
+								</TableCell>
+								<TableCell align={headers[2].align || 'left'}>
+									{formatTime(endAt)}
+								</TableCell>
+								<TableCell align={headers[3].align || 'left'}>
+									{TaskDescription[task]}
+								</TableCell>
+								<TableCell align={headers[4].align || 'left'}>
+									{customerName}
+								</TableCell>
+								<TableCell align={headers[5].align || 'left'}>
+									{calcDuration(startAt, endAt)}
+								</TableCell>
+							</TableRow>
+						))}
 				</TableBody>
 			</Table>
 		</TableContainer>
