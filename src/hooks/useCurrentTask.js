@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
 import { getCurrentTask } from '../util/taskGetters';
+import compareTasks from '../util/compareTasks';
 
-export default function useCurrentTask(state, setCurrent) {
+export default function useCurrentTask({ state, current, setCurrent }) {
 	useEffect(() => {
 		const timerId = setInterval(() => {
 			const ct = getCurrentTask(state);
-			// console.log(ct);
-			setCurrent(ct);
+
+			// update current task if different from previous
+			!compareTasks(current, ct) && setCurrent(ct);
 		}, 1000);
 
 		return () => {
