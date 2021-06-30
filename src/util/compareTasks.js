@@ -3,7 +3,8 @@ export default function compareTasks(a, b) {
 		return true;
 	}
 
-	if ((a === undefined || b === undefined) && a !== b) {
+	if ((!a || !b) && a !== b) {
+		//both falsey
 		return false;
 	}
 
@@ -11,7 +12,7 @@ export default function compareTasks(a, b) {
 	const endAtB = b.endAt && b.endAt.valueOf();
 
 	return (
-		a.sequence===b.sequence &&
+		a.sequence === b.sequence &&
 		a.task === b.task &&
 		a.startAt.valueOf() === b.startAt.valueOf() &&
 		endAtA === endAtB &&
