@@ -35,6 +35,7 @@ function reducer(state, action) {
 				...state,
 				sequence: newSequence,
 				[newSequence]: {
+					sequence: newSequence,
 					task: Tasks.BREAK,
 					startAt: now,
 				},
@@ -48,7 +49,7 @@ function reducer(state, action) {
 			}
 
 			newState = { ...state, onBreak: false };
-			newState[currentBreakSeq] = { ...newState[currentBreakSeq], endAt: now };
+			newState[currentBreakSeq].endAt = now;
 
 			break;
 
