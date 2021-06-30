@@ -19,6 +19,8 @@ const headers = [
 	{name: 'Duration', align: 'left'},
 ]
 
+const calcDuration=(startAt, endAt)=> !endAt ? "Ongoing" : moment.duration(moment(endAt).diff(moment(startAt))).asMinutes()
+
 export default function OrdersTable({orders}) {
 	const classes = useStyles();
 	return (
@@ -37,10 +39,10 @@ export default function OrdersTable({orders}) {
 								<TableCell component="th" scope="row">
 									{sequence}
 								</TableCell>
-								<TableCell align={headers[1].align || "left"}>{ moment(endAt).hour() }:{moment(endAt).minutes()}</TableCell>
+								<TableCell align={headers[1].align || "left"}>{ endAt ? (`${moment(endAt).hour()}:${moment(endAt).minutes()}`) :''  }</TableCell>
 								<TableCell align={headers[2].align || "left"}>{TaskDescription[task]}</TableCell>
 								<TableCell align={headers[3].align || "left"}>{customerName}</TableCell>
-								<TableCell align={headers[4].align || "left"}>{moment.duration(moment(endAt).diff(moment(startAt))).asMinutes()}</TableCell>
+								<TableCell align={headers[4].align || "left"}>{calcDuration(startAt, endAt)}</TableCell>
 							</TableRow>
 						))}
 				</TableBody>
