@@ -5,19 +5,24 @@ import { Actions } from './index';
 
 export default function useCurrentTask({ state, dispatch }) {
 	useEffect(() => {
-		const timerId = setInterval(() => {
+		// This needs to run every time the state changes,
+		// or the timer won't get updated data
+
+		let timerId;
+
+		if (timerId) {
+			//remove previous timer
+			clearInterval(timerId);
+		}
+
+		timerId = setInterval(() => {
 			const { currentTask: oldCurrent } = state;
 			const newCurrent = getCurrentTask(state);
 
 			if (compareTasks(newCurrent, oldCurrent)) {
-				//no change
+				// console.log(`Same, returning`);
 				return;
 			}
-
-			console.group('useCurrentTask');
-			console.log(newCurrent);
-			console.log(oldCurrent);
-			console.groupEnd();
 
 			dispatch({
 				type: !newCurrent
@@ -30,5 +35,5 @@ export default function useCurrentTask({ state, dispatch }) {
 		return () => {
 			clearInterval(timerId);
 		};
-	}, []);
+	}, [state]);
 }

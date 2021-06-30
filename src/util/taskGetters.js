@@ -17,7 +17,7 @@ export const getUnfinishedTask = (state) => {
 
 export const getCurrentTask = (state, currentTime = new Date()) => {
 	const now = moment(currentTime);
-	const currentSeq = getSeq(state)
+	const result = getSeq(state)
 		.map((key) => ({
 			startAt: moment(state[key].startAt),
 			endAt: moment(state[key].endAt),
@@ -25,20 +25,21 @@ export const getCurrentTask = (state, currentTime = new Date()) => {
 			sequence: state[key].sequence,
 		}))
 		.find(({ startAt, endAt, task, sequence }) => {
-			console.group(task);
+			/*			console.group(task);
 			console.log(`seq: ${sequence}`);
 			console.log(`now: ${now}`);
 			console.log(`startAt: ${startAt}`);
 			console.log(`endAt: ${endAt}`);
 			console.log(`isBefore: ${startAt.isBefore(now)}`);
 			console.log(`isAfter: ${endAt.isAfter(now)}`);
-			console.groupEnd();
+			console.groupEnd();*/
 
-			return startAt.isBefore(now) && endAt.isAfter(now) && sequence;
+			return (
+				(startAt.isBefore(now) || startAt.isSame(now)) &&
+				(endAt.isAfter(now) || endAt.isSame(now)) &&
+				sequence
+			);
 		});
 
-	const result = currentSeq ? state[currentSeq.sequence] : undefined;
-	console.log(`result: ${result}`);
-	console.log(result);
-	return result;
+	return result ? state[result.sequence] : undefined;
 };
