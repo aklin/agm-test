@@ -1,14 +1,30 @@
 import { useEffect } from 'react';
 import { getCurrentTask } from '../util/taskGetters';
 import compareTasks from '../util/compareTasks';
+import { Actions } from './index';
 
-export default function useCurrentTask({ state, current, setCurrent }) {
+export default function useCurrentTask({ state, dispatch }) {
 	useEffect(() => {
 		const timerId = setInterval(() => {
-			const ct = getCurrentTask(state);
+			const { currentTask: oldCurrent } = state;
+			const newCurrent = getCurrentTask(state);
 
-			// update current task if different from previous
-			!compareTasks(current, ct) && setCurrent(ct);
+			if (compareTasks(newCurrent, oldCurrent)) {
+				//no change
+				return;
+			}
+
+			console.group('useCurrentTask');
+			console.log(newCurrent);
+			console.log(oldCurrent);
+			console.groupEnd();
+
+			dispatch({
+				type: !newCurrent
+					? Actions.UNSET_CURRENT_TASK
+					: Actions.SET_CURRENT_TASK,
+				data: newCurrent,
+			});
 		}, 1000);
 
 		return () => {

@@ -1,19 +1,28 @@
-import { Grid, Paper, Typography } from '@material-ui/core';
+import { Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import { TaskDescription } from '../../util/tasks';
-import useCurrentTask from '../../hooks/useCurrentTask';
-import { useState } from 'react';
+
+const useStyles = makeStyles({
+	topMargin: {
+		marginTop: '50px',
+		marginBottom: '50px',
+	},
+});
 
 export default function CurrentTask({ state }) {
-	const [current, setCurrent] = useState();
-	useCurrentTask({ state, current, setCurrent });
+	const classes = useStyles();
+	const { currentTask } = state;
 
-	const { task, customerName } = current || {};
+	const { task, customerName } = currentTask || {};
+
+	console.group('CurrentTask');
+	console.log(currentTask);
+	console.groupEnd();
 
 	return (
-		<Paper>
+		<Paper className={classes.topMargin}>
 			<Typography variant={'h4'}>Current task</Typography>
 
-			{current ? (
+			{currentTask ? (
 				<Grid container>
 					<Grid item md={6}>
 						Task

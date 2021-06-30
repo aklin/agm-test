@@ -1,9 +1,14 @@
 import { createContext, useContext, useReducer } from 'react';
 import moment from 'moment';
 import { TaskDurationMinutes, Tasks } from '../util/tasks';
-import deepmerge from 'deepmerge';
 
-export const StoreContext = createContext({ sequence: 0 });
+const initialStore = {
+	sequence: 0,
+	onBreak: false,
+	currentTask: false,
+};
+
+export const StoreContext = createContext(initialStore);
 
 export const Actions = {
 	/**
@@ -12,6 +17,8 @@ export const Actions = {
 	ADD_NEW_ORDER: 'ADD_NEW_ORDER',
 	START_BREAK: 'START_BREAK',
 	END_BREAK: 'END_BREAK',
+	SET_CURRENT_TASK: 'SET_CURRENT_TASK',
+	UNSET_CURRENT_TASK: 'UNSET_CURRENT_TASK',
 };
 
 function reducer(state, action) {
@@ -23,13 +30,26 @@ function reducer(state, action) {
 	let newState;
 
 	if (debug) {
-		console.group();
+		console.group(type);
 		console.log(`Seq: ${oldSequence}`);
 		console.log('State');
 		console.log(state);
 	}
 
 	switch (type) {
+		case Actions.SET_CURRENT_TASK:
+			newState = {
+				...state,
+				currentTask: data,
+			};
+			break;
+
+		case Actions.UNSET_CURRENT_TASK:
+			newState = {
+				...state,
+				currentTask: false,
+			};
+			break;
 		case Actions.START_BREAK:
 			newState = {
 				...state,
@@ -102,10 +122,7 @@ export const useStore = () => {
 };
 
 export const useInitStore = () => {
-	const [state, dispatch] = useReducer(reducer, {
-		sequence: 0,
-		onBreak: false,
-	});
+	const [state, dispatch] = useReducer(reducer, initialStore);
 
 	return { state, dispatch };
 };

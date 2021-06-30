@@ -10,6 +10,7 @@ import Orders from './components/Orders';
 import CreateOrder from './components/CreateOrder';
 import { StoreContext, useInitStore } from './hooks';
 import CurrentTask from './components/CurrentTask';
+import useCurrentTask from './hooks/useCurrentTask';
 
 const useStyles = makeStyles({
 	topMargin: {
@@ -21,6 +22,7 @@ function App() {
 	const classes = useStyles();
 
 	const { state, dispatch } = useInitStore();
+	useCurrentTask({ state, dispatch });
 
 	return (
 		<StoreContext.Provider value={{ state, dispatch }}>
