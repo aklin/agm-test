@@ -1,22 +1,15 @@
-import { useEffect, useState } from 'react';
-import { getCurrentTask } from '../../util/taskGetters';
 import { Grid, Paper, Typography } from '@material-ui/core';
 import { TaskDescription } from '../../util/tasks';
+import useCurrentTask from '../../hooks/useCurrentTask';
+import { useState } from 'react';
 
 export default function CurrentTask({ state }) {
 	const [current, setCurrent] = useState();
-
-	useEffect(() => {
-		const timerId = setInterval(() => {
-			const ct = getCurrentTask(state);
-			console.log(ct);
-			setCurrent(ct);
-		}, 1000);
-
-		return () => {
-			clearInterval(timerId);
-		};
-	}, []);
+	useCurrentTask(state, (v) => {
+		console.log(`setting current`);
+		console.log(v);
+		setCurrent(v);
+	});
 
 	const { task, customerName } = current || {};
 
