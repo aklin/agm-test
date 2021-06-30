@@ -35,7 +35,7 @@ export default function CreateOrder({ state, dispatch }) {
 						<InputField
 							id={'customerName'}
 							data-testid={'customerName'}
-							disabled={onBreak}
+							disabled={!!onBreak}
 							value={customerName}
 							label={'Customer name'}
 							helperText={'Will appear on your Orders table below'}
@@ -45,7 +45,7 @@ export default function CreateOrder({ state, dispatch }) {
 							}}
 						/>
 						<Button
-							disabled={onBreak}
+							disabled={!!onBreak}
 							data-testid={'createOrderBtn'}
 							onClick={(e) => {
 								e.preventDefault();
@@ -58,7 +58,7 @@ export default function CreateOrder({ state, dispatch }) {
 					</Grid>
 					<Grid item md={4}>
 						<Button
-							disabled={current}
+							disabled={!!current}
 							data-testid={'breakBtn'}
 							onClick={(e) => {
 								e.preventDefault();

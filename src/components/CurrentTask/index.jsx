@@ -5,11 +5,7 @@ import { useState } from 'react';
 
 export default function CurrentTask({ state }) {
 	const [current, setCurrent] = useState();
-	useCurrentTask(state, (v) => {
-		console.log(`setting current`);
-		console.log(v);
-		setCurrent(v);
-	});
+	useCurrentTask({ state, current, setCurrent });
 
 	const { task, customerName } = current || {};
 
