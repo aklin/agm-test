@@ -2,6 +2,7 @@ import { Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import InputField from '../InputField';
 import { useState } from 'react';
 import { Actions } from '../../hooks';
+import useCurrentTask from '../../hooks/useCurrentTask';
 
 const useStyles = makeStyles({
 	topMargin: {
@@ -13,12 +14,17 @@ const useStyles = makeStyles({
 export default function CreateOrder({ state, dispatch }) {
 	const classes = useStyles();
 
+	const [current, setCurrent] = useState();
 	const [form, setForm] = useState({});
 	const { customerName } = form;
 
 	const { onBreak } = state;
 
-	console.log(onBreak);
+	useCurrentTask({ state, current, setCurrent });
+
+	console.group('CreateOrder');
+	console.log(current);
+	console.groupEnd();
 
 	return (
 		<div className={classes.topMargin}>
@@ -29,6 +35,7 @@ export default function CreateOrder({ state, dispatch }) {
 						<InputField
 							id={'customerName'}
 							data-testid={'customerName'}
+							disabled={onBreak}
 							value={customerName}
 							label={'Customer name'}
 							helperText={'Will appear on your Orders table below'}
@@ -38,6 +45,8 @@ export default function CreateOrder({ state, dispatch }) {
 							}}
 						/>
 						<Button
+							disabled={onBreak}
+							data-testid={'createOrderBtn'}
 							onClick={(e) => {
 								e.preventDefault();
 								dispatch({ type: Actions.ADD_NEW_ORDER, data: form });
@@ -49,6 +58,7 @@ export default function CreateOrder({ state, dispatch }) {
 					</Grid>
 					<Grid item md={4}>
 						<Button
+							disabled={current}
 							data-testid={'breakBtn'}
 							onClick={(e) => {
 								e.preventDefault();
