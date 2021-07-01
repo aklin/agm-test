@@ -53,7 +53,7 @@ export default function CreateOrder({ state, dispatch }) {
 					</Grid>
 					<Grid item md={4}>
 						<Button
-							disabled={!!currentTask}
+							disabled={!!currentTask && !onBreak}
 							data-testid={'breakBtn'}
 							onClick={(e) => {
 								e.preventDefault();
